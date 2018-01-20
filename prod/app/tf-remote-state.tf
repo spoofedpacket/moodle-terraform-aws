@@ -16,6 +16,21 @@ terraform {
  }
 }
 
+# S3 bucket for the remote state file
+#
+resource "aws_s3_bucket" "spoofedpacket-tf-state-storage-s3" {
+  bucket = "spoofedpacket-tf-remote-state-storage-s3"
+  versioning {
+    enabled = true
+  }
+  lifecycle {
+    prevent_destroy = true
+  }
+  tags {
+    Name = "S3 Remote Terraform State Store"
+  }
+}
+
 # Create a dynamodb table for locking the state file
 #
 resource "aws_dynamodb_table" "tf-moodle-prod-app-state-lock" {
